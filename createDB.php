@@ -18,9 +18,8 @@ id INT AUTO_INCREMENT PRIMARY KEY,
 username VARCHAR(30) NOT NULL,
 form_title VARCHAR(100) NOT NULL,
 form_description text NOT NULL,
-url text NOT NULL,
-no_of_submissions INT NOT NULL,
-submissions_per_user INT NOT NULL
+url text DEFAULT NULL,
+submissions_per_user INT DEFAULT 2500 
 )";
 $create = mysqli_query($con,$query);
 
