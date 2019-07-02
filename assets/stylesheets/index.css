@@ -1,0 +1,51 @@
+html {
+	height: 100%;
+}
+
+body {
+	background: url("https://images.unsplash.com/photo-1558684836-062bd8ea1710?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80");
+	background-size: cover;
+	color: #4B0082;
+	font-size: 1.2rem;
+}
+hr {
+	background-color:  #4B0082;
+	width: 80%;
+}
+
+.card {
+	background-color: #e5e5e5;
+	width: 12rem; 
+	height:12rem;
+}
+
+.col-md-8 {
+	background-color: #e5e5e5;
+	margin-top: 10px;
+}
+
+.btn {
+	float: right;
+	background-color: #4B0082;
+	color: white;
+}
+
+.mt-lg-4{
+	width: 70%;
+	align-items: center;
+}
+
+#navBar {
+	background-color: rgba(139,0,139,0.3);
+	color: white;
+	margin-bottom: 20px;
+}
+
+.btn{
+	 border: 1px solid white;
+	 padding: 2px;
+}
+
+a {
+	text-transform: uppercase;
+}

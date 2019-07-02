@@ -1,0 +1,96 @@
+html {
+	height: 100%;
+}
+body {
+	background: linear-gradient(30deg, #FFA69E, #861657);
+	background-size: cover;
+	font-family: Rubik;
+}
+
+hr {
+	box-shadow: 0 0 2px #6B0F1A;
+	border: 1px solid #6B0F1A;
+}
+
+.hidden {
+	display: none;
+}
+
+#navBar {
+   font-size: 1.5rem; 
+	background-color: #861657;
+	color: white;
+	padding: 5px;
+	padding-right: 30px;
+	padding-left: 30px;
+	height: 50px;
+}
+
+.btn {
+	color: white;
+background-color: #861657;
+margin-left: 20px;
+margin-top: 12px;
+}
+.container {
+   width: 50%;
+   margin-top: 20px;
+   font-size: 1rem;
+   background-color: #f6f6f6;
+   padding: 10px;
+   border:1px solid #6B0F1A;
+}
+
+.form-control {
+	width: 80%;
+	border-top:0;
+	border-left: 0;
+	border-right: 0;
+	margin-bottom: 10px;
+	background-color: #f6f6f6;
+}
+
+.form-group {
+	border-bottom: 10px;
+	border-color: black;
+}
+
+.card {
+	background-color: #f6f6f6;
+}
+
+
+.form-control:focus {
+	border: 1px solid #6B0F1A;
+	outline: none;
+	box-shadow: 0 0 5px #6B0F1A;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+/*#modal {
+	z-index: 2000;
+	} */
+/*
+data-backdrop {
+	
+	color: #000000;
+	opacity: 0.5;
+}*/
+
+#backdrop {
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+}

@@ -1,0 +1,56 @@
+html {
+	height: 100%;
+}
+body {
+	background: linear-gradient(30deg, #FFA69E, #861657);
+	background-size: cover;
+	font-family: Rubik;
+	width: 100%;
+	margin: 0;
+	font-size: 1.8rem;
+}
+button {
+	font-size: 1.2rem;
+	color: #fff;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	background-color: rgba(255,255,255, 0);
+}
+form {
+	float: right;
+	margin-top: -10px;
+	margin-right: 50px;
+	height: 40px;
+	padding: 0;
+
+}
+button:hover {
+	background-color: #6B238E;
+	opacity: 0.5;
+	cursor: pointer;
+}
+span{
+	text-transform: uppercase;
+	margin-left: 30px;
+}
+span:hover {
+	cursor: pointer;
+}
+.bar {
+	background-color: #861657;
+	color: white;
+	padding: 0px;
+	margin-top: -40px;
+	width: 100%;
+	height: 50px;
+	font-size: 2rem;
+}
+.container {
+	margin: auto;
+	margin-top: 20px;
+	padding: 20px;
+	width: 50%;
+	text-align: center;
+	border: 1px solid #6B238E;
+	background-color: #f6f6f6;
+}

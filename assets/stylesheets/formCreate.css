@@ -1,0 +1,98 @@
+body {
+	background-color: #420c3d;
+	color: black;
+}
+.btn {
+	color: white;
+	background-color: #560764;
+	font-family: Rubik;
+}
+#navBar {
+	font-size: 1.5rem; 
+	background-color: #560764;
+	color: white;
+	text-transform: uppercase;
+	padding: 5px;
+	padding-right: 30px;
+	padding-left: 30px;
+}
+
+hr {
+	width: 60%;
+}
+
+.input-group .form-control .input{
+	width: 50%;
+	padding: 10px;
+	color: black;
+}
+
+.option {
+	background-color: #800080;
+	color: white;
+	padding: 20px;
+	height: 300px;
+	border: 2px solid black;
+	margin-right: auto;
+	text-transform: uppercase;
+}
+.option .input-group {
+	margin-bottom: 10px;
+	padding: 5px;
+}
+i {
+	padding: 2px;
+}
+.input-group .input {
+	border-top:0;
+	border-left: 0;
+	border-right: 0;
+	margin-bottom: 10px;
+	font-size: 1.5rem;
+}
+
+.outer {
+	padding: 10px;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.form-control:focus,.outer:focus-within {
+	border: 1px solid #560764;
+	outline: none;
+	box-shadow: 0 0 5px #560764;
+}
+
+.container {
+	padding: 10px;
+	margin-top: 20px;
+}
+
+#form {
+	padding: 20px;
+}
+.url {
+	background-color: #800080;
+	color: white;
+	padding: 10px;
+}
+
+input[type="checkbox"] {
+	border-radius: 50px;
+	box-shadow: 0 0 3px #560764;
+	border: 1px solid #560764;
+	padding: 5px;
+}
+
+label {
+	margin-left: 0.5rem;
+}
+.required {
+	width:15%;
+	border-radius:10px;
+	background:rgba(0,0,0,0.1);
+}
+
+
+
+
