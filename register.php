@@ -3,6 +3,8 @@ session_start();
 include("createDB.php");
 include("classes\constants.php");
 include("classes\signup.php");
+
+//if user already logged in head to index
 if(isset($_SESSION['userLoggedIn'])){
 	header("location: index.php");
 }
@@ -22,6 +24,7 @@ if(isset($_POST['loginButton'])){
 
 include("loginCheck.php");
 
+//used to display error messages if any
 function getValue($name){
 	if(isset($_POST[$name]))
 		echo $_POST[$name];
@@ -56,11 +59,13 @@ function getValue($name){
 					<div class="loginGroup">
 						<h1 class="text-center">Sign In</h1>
 						<?php
-						if($registerSuccess){
+						if(isset($registerSuccess)){
+							if($registerSuccess){
 							echo '<p class="text-center" style="color:rgb(1,50,32);">'.Constants::$successRegister.'</p>';
+						   }
 						}
 						?>
-
+                        <!-- login Form -->
 						<form class="login-form" action="register.php" method="POST">
 							<div class="form-group">
 								<label>Username:</label>
@@ -81,6 +86,7 @@ function getValue($name){
 								<p id="registerShow" >No account? Click Here.</p>
 							</div>
 						</form>
+						<!-------------->
 					</div>
 				</div>
 			</div>
@@ -101,6 +107,7 @@ function getValue($name){
 				</div>	
 				<div class="col-md-5">
 					<div class="loginGroup">
+						<!-- Register Form -->
 						<form action="register.php" method="POST">
 							<h1 class="text-center">Sign In</h1>
 							<div class="form-group" style="margin: 0px;">
@@ -149,6 +156,7 @@ function getValue($name){
 							</div>
 							<div class="showSpan"><p id="loginShow">Have an account? Click Here</p></div>	
 						</form>
+						<!-------------->
 					</div>
 				</div>
 			</div>

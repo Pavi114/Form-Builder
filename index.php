@@ -5,8 +5,14 @@ include("current_user.php");
 
 //display form created by user 
 function display($row){
+  if($row['status'] == 1){
+    $status = "open";
+  }
+  else {
+    $status = "closed";
+  }
   $url = str_replace("fillform.php", "response.php", $row['url']);
-  return '<tr><td>'.$row['form_title'].'<br>'.$row['form_description'].'</td><td><form action='.$url.' method="POST">
+  return '<tr><td>'.$row['form_title'].'<br>'.$row['form_description'].'</td><td>'.$row['total_submissions'].'</td><td>'.$status.'</td><td><form action='.$url.' method="POST">
   <button class="btn" name="response">RESPONSES</button>
   </form></td></tr>';
 }
@@ -24,24 +30,18 @@ function display($row){
 <body>
 
  <!-- navbar -->
- <nav class="navbar navbar-expand-md navbar-light" id="navBar">
-   <a href="#" class="navbar-brand nav-link disabled"><?php echo $currentUser->getUser(); ?></a>
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-   </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+ <nav class="navbar navbar-expand navbar-light" id="navBar">
+   <a href="#" class="navbar-brand nav-link disabled" id="user"><?php echo $currentUser->getUser(); ?></a>
    <ul class="navbar-nav mr-auto ml-4">
      <li class="nav-item">
        <a class="nav-link border-0" href="index.php">HOME</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link rounded" href="logout.php?signOut=true">SIGN OUT</a>
-      </li>
-    </ul>
-  </div>
+     </li>
+  </ul>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link rounded" href="logout.php?signOut=true">SIGN OUT</a>
+    </li>
+  </ul>
 </nav>
 
 <!-- view forms created and templates(to be made) -->
@@ -64,39 +64,69 @@ function display($row){
   <div class="col-md-8">
     <h2 class="text-center">Your Forms</h2>
     <hr>
+    <!---display open and trending forms----->
     <div class="table-responsive-sm">
       <table class="table rounded table-striped">
-
        <?php
        //get user's forms
        $user = $currentUser->getUser();
-       $stmt = $con->prepare("SELECT * FROM form_list WHERE username = ? ");
+       $stmt = $con->prepare("SELECT * FROM form_list WHERE username = ? and status = '1' ORDER BY total_submissions DESC");
        $stmt->bind_param('s',$user);
        $stmt->execute();
-       // $query = "SELECT * FROM form_list WHERE username = '$user'";
+       
        $getForms = $stmt->get_result();
 
        //display form titles to view response
        $output = '';
-      
+
        if(mysqli_num_rows($getForms) == 0){
           //no forms created
-         $output = '<div class="container text-center p-lg-2">
-         Nothing to display
+         $output .= '<div class="container text-center p-lg-2">
+         No current forms
          </div>';
        }
        else {
+         echo '<tr><th>Form</th><th>submissions</th><th>Status</th><th>Response</th></tr>';
          while($row = $getForms->fetch_assoc()){
            $output .= display($row);
          }  
        }
+
        echo $output;
        ?>
-
      </table>
    </div>
- </div>
+
+   <!------display closed forms in decreasinf order of responses---->
+   <div class="table-responsive-sm">
+    <table class="table rounded table-striped">
+     <?php
+     $output = '';
+     $user = $currentUser->getUser();
+     $stmt = $con->prepare("SELECT * FROM form_list WHERE username = ? and status = '0' ORDER BY total_submissions DESC");
+     $stmt->bind_param('s',$user);
+     $stmt->execute();
+
+     $getForms = $stmt->get_result();
+
+     if(mysqli_num_rows($getForms) == 0){
+      $output .= '<div class="container text-center p-lg-2">
+      No closed forms
+      </div>';
+    }
+    else {
+      echo '<tr><th>Form</th><th>submissions</th><th>Response</th><th>Status</th></tr>';
+      while($row = $getForms->fetch_assoc()){
+       $output .= display($row);
+     } 
+   }
+   echo $output;
+   ?>
+ </table>
 </div>
+</div>
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

@@ -8,7 +8,6 @@
   	$password = stripTag($_POST['passwordCreate']);
   	$confirmPassword = stripTag($_POST['passwordConfirm']);
     
-    
   	$registerSuccess = $user->signup($fn,$ln,$username,$password,$confirmPassword,$email);
 
 }

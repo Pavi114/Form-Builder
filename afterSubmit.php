@@ -4,7 +4,26 @@ include("classes/input.php");
 include("classes/buildform.php");
 include("classes/User.php");
 include("current_user.php");
+
+function updateFormTable(){
+	$con = mysqli_connect('localhost','root','idc1234','delta');
+	//increase submit count 
+  $stmt=$con->prepare("UPDATE form_list SET total_submissions = total_submissions + 1 WHERE id=?");
+  $stmt->bind_param('i',$_SESSION['current_form']);
+  $stmt->execute();
+  $stmt->close(); 
+}
+
+//after inserting answers
+if(isset($_SESSION['submitSuccess'])){
+	updateFormTable();
+    unset($_SESSION['submitSuccess']);
+}
+else {
+	die("Something went wrong...");
+}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -2,13 +2,21 @@ var inputType = document.querySelector("#inputType");
 var typeButton = document.querySelector("#typeButton");
 var form = document.querySelector("#form");
 var sendForm = document.querySelector("#sendForm");
+var otherOptions = document.querySelector("#otherOptions");
+var modal = document.querySelector("#modal");
+var showmodal = document.querySelector("#showmodal"); 
+var addRadio = document.querySelector("#addRadio");
 var outerDiv;
+//array to store names of form elements
 var nameArray = [];
+var httprequest,response;
+
 class addInput{
   constructor(type,ansType){
     this.type = type;
     this.ansType = ansType;
   }
+  //keep track of number of questions added and used for assigning names to form elements
   static updateQuestionNum(){
    this.questionNum += 1;
  }
@@ -16,7 +24,7 @@ class addInput{
  static getQuestionNum(){
   return this.questionNum;
 }
-
+//add question field to form
 createQuestion(){
   outerDiv = document.createElement("DIV");
   outerDiv.classList.add("outer");
@@ -24,6 +32,7 @@ createQuestion(){
   div.classList.add("input-group");
   outerDiv.appendChild(div);
   var question = document.createElement("INPUT");
+  //asssign input name of the pattern answer(ans type)(question num)
   var inputName = "answer"+ this.ansType;
   inputName +=  addInput.questionNum.toString();
   question.type = this.type;
@@ -35,12 +44,44 @@ createQuestion(){
   question.classList.add("form-control");
   question.classList.add("input");
   div.appendChild(question);
- }
 
- createTextElements(){
+}
+
+createRadio(){
+  var div = document.createElement("div");
+  outerDiv.insertBefore(div,outerDiv.childNodes[1]);
+  div.classList.add("row");
+  div.classList.add("m-2");
+  var input = document.createElement("INPUT");
+   input.type = "radio";  
+  input.disabled = "true";
+  div.appendChild(input);
+  var option = document.createElement("INPUT");
+  option.type = "text";
+  option.setAttribute("name","answer" + this.ansType + addInput.questionNum + addInput.optionNum);
+  option.value = "option";
+  option.classList.add("ml-2");
+  option.classList.add("rounded");
+  div.appendChild(option);
+  addInput.optionNum++;
+}
+
+createOption(){
+  var div = document.createElement("div");
+  outerDiv.insertBefore(div,outerDiv.childNodes[1]);
+  var option = document.createElement("INPUT");
+  option.type = "text";
+  option.setAttribute("name","answer" + this.ansType + addInput.questionNum + addInput.optionNum);
+  option.value = "option";
+  div.appendChild(option);
+  addInput.optionNum++;
+}
+
+createTextElements(){
   var div = document.createElement("DIV");
   div.classList.add("input-group");
   outerDiv.appendChild(div);
+   //create ans field
   var answer = document.createElement("INPUT");
   answer.type = this.ansType;
   answer.setAttribute("placeholder","Answer");
@@ -48,71 +89,101 @@ createQuestion(){
   answer.classList.add("input");
   answer.disabled = "true";
   div.appendChild(answer);
- }
+}
 
- createDelete(){
-  var button = document.createElement("button");
-  button.type = "button";
-  button.innerHTML = '<i class="fas fa-trash"></i>';
-  button.setAttribute("id",this.ansType + addInput.questionNum);
-  button.classList.add("btn");
-  button.classList.add("btn-danger");
-  button.onclick = function(){
-                     
-                      var name = "answer" + this.id;
-                      var search = "input[name="+ name + "]";
-                      nameArray = nameArray.filter(function(value,index,arr){
-                        return name != value;
-                      })
-                      document.querySelector(search).setAttribute("name", "null");
-                       this.parentNode.style.display = "none";
-
-                    };
-  outerDiv.appendChild(button);
-  button.style.position = "absolute";
-  button.style.bottom = "18px";
-  button.style.right = "10px";
+//should the user necessarily answer this question while filling the form
+createRequired(){
+  var div = document.createElement("DIV");
+  div.classList.add("input-group");
+  div.classList.add("required");
+  var checkBox = document.createElement("INPUT");
+  checkBox.type = "checkbox";
+  checkBox.name = "required" + addInput.questionNum;
+  checkBox.value = "true";
+  checkBox.style.margin = "0.2rem";
+  var label = document.createElement("LABEL");
+  label.innerHTML = "Required";
+  label.setAttribute("for","checkBox");
+  label.style.margin = "0.1rem";
+  div.appendChild(label);
+  div.appendChild(checkBox);
+  outerDiv.appendChild(div);
   form.insertBefore(outerDiv,sendForm.parentNode);
 }
 
-createRequired(){
-var div = document.createElement("DIV");
-div.classList.add("input-group");
-div.classList.add("required");
-var checkBox = document.createElement("INPUT");
-checkBox.type = "checkbox";
-checkBox.name = "required" + addInput.questionNum;
-checkBox.value = "true";
-var label = document.createElement("LABEL");
-label.innerHTML = "Required";
-label.setAttribute("for","checkBox");
-label.style.margin = "0.5rem";
-div.appendChild(label);
-div.appendChild(checkBox);
-outerDiv.appendChild(div);
 }
 
-}
 
-addInput.questionNum = 1;
+addInput.questionNum = 0;
 typeButton.addEventListener("click",function(){
+   addInput.updateQuestionNum();
+    //get value of type of ans chosen
   var radio = document.querySelector('input[name="type"]:checked');
   var inputType = radio.value;
   if(inputType == "text" || inputType == "number"){
     var add = new addInput("text",inputType);
     add.createQuestion();
     add.createTextElements();
-    add.createDelete();
     add.createRequired();
-    addInput.updateQuestionNum();
   }
+  else if(inputType == "file"){
+    var add = new addInput("text",inputType);
+    add.createQuestion();
+    add.createRequired();
+  }
+  else if(inputType == "mcq"){
+    addInput.optionNum = 1;
+    var add = new addInput("text",inputType);
+    add.createQuestion();
+    add.createRadio();
+    var addRadio = document.createElement("INPUT");
+    addRadio.type = "button";
+    addRadio.value = "Add";
+    addRadio.classList.add("rounded");
+    addRadio.setAttribute("id","addRadio");
+    addRadio.onclick = function(){
+      if(addInput.optionNum < 5){
+        add.createRadio();
+      }
+      else {
+        alert("can't add more than 5 options");
+      }
+    }
+    outerDiv.appendChild(addRadio);
+    add.createRequired();
+  }
+
+  else if(inputType == "dropdown"){
+    addInput.optionNum = 1;
+    var add = new addInput("text",inputType);
+    add.createQuestion();
+    add.createOption();
+    var addoption = document.createElement("INPUT");
+    addoption.type = "button";
+    addoption.value = "Add";
+    addoption.classList.add("rounded");
+
+    addoption.setAttribute("id","addoption");
+    addoption.onclick = function(){
+      if(addInput.optionNum < 5){
+        add.createOption();
+      }
+      else {
+        alert("can't add more than 5 options");
+      }
+    }
+    outerDiv.appendChild(addoption);
+    add.createRequired();
+  }
+  //reset radio buttons
   radio.checked = false;
 });
 
-
+//validation of question fields
 sendForm.addEventListener("click",function(){
   var title = document.querySelector("#title");
   var description = document.querySelector("#description");
+  var error = false;
   if(title.value == ""){
     alert("enter valid title");
   }
@@ -120,10 +191,52 @@ sendForm.addEventListener("click",function(){
     alert("Enter valid Description");
   }
   for (var i = 0; i < nameArray.length; i++) {
-     var type = nameArray[i];
-     var question = document.querySelector('#'+ nameArray[i]);
-     if(question.value == ""){
-      alert("Plaese enter all questions");
-     }
+   var type = nameArray[i];
+   var question = document.querySelector('#'+ nameArray[i]);
+   if(question.value == ""){
+    alert("Please enter all questions");
   }
-});
+}
+
+})
+
+//ajax call for setting max submissions and validity of form
+otherOptions.addEventListener("click",function(){
+  var submission = document.querySelector("#submissionCount").value;
+  var time = document.querySelector("#timedForm").value;
+  if(submission != "" && submission <= 0){
+    alert("Enter integers greater than 0");
+    return false;
+  }
+  if(time != "" && time <= 0){
+    alert("Enter positive integral time");
+    return false;
+  }
+  httpRequest = new XMLHttpRequest();
+  if(!httpRequest){
+    alert("cannot create request");
+    return false;
+  }
+  httpRequest.onreadystatechange = setSettings;
+  httpRequest.open('POST','otherOptions.php');
+  httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+  httpRequest.send('submissionCount=' + submission + '&time=' + time);
+
+})
+
+function setSettings(){
+  if(httpRequest.readyState == XMLHttpRequest.DONE){
+    if(httpRequest.status == 200){
+      var row = document.querySelector("#others");
+      response = JSON.parse(httpRequest.responseText);
+      document.querySelector(".modal-body").innerHTML += "Successfully Updated";
+      if(response.subCount > 0){
+        others.innerHTML += '<div class="col-sm-6"><span>Submissions Per User: '+ response.subCount + '</span></div>'; 
+      }
+      if(response.timeCount > 0){
+        others.innerHTML += '<div class="col-sm-6" style="text-align:right"><span>Validity: ' + response.timeCount + '</span></div>';
+      }
+
+    }
+  }
+}

@@ -1,11 +1,11 @@
 <?php 
-  
+  //register class
   class Account {
 
   	private $error;
     private $con;
 
-  	
+  	//constructor
   	function __construct($con)
   	{
   		$this->error = array();
@@ -24,15 +24,21 @@
   			return false;
   		}
   	}
-
+    
+    //insert into db
   	private function insertDetails($fn,$ln,$un,$pass,$email){
   		$encrypt = password_hash($pass,PASSWORD_DEFAULT);
       $name = $fn." ".$ln;
+      $stmt = $this->con->prepare("INSERT INTO user (name,username,password,email) VALUES (?, ?, ?, ?)");
+      $stmt->bind_param('ssss',$name,$un,$encrypt,$email);
+      $stmt->execute();
+      $stmt->close();
   		$query = "INSERT INTO user (name,username,password,email) VALUES ('$name','$un','$encrypt','$email')";
   	    $result = mysqli_query($this->con,$query);
   	    return $result;
   	}
-
+    
+    //validate first name
   	private function validateFirstName($fn){
   		if(strlen($fn) > 20 || strlen($fn) < 5){
   			array_push($this->error,Constants::$invalidFirstName);
