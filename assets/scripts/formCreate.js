@@ -13,29 +13,33 @@ var httprequest,response;
 
 class addInput{
   constructor(type,ansType){
-    this.type = type;
+    this.type = type; //question type
     this.ansType = ansType;
   }
   //keep track of number of questions added and used for assigning names to form elements
   static updateQuestionNum(){
    this.questionNum += 1;
  }
-
+ //get question num
  static getQuestionNum(){
   return this.questionNum;
 }
 //add question field to form
 createQuestion(){
+  //creating div
   outerDiv = document.createElement("DIV");
   outerDiv.classList.add("outer");
   var div = document.createElement("DIV");
   div.classList.add("input-group");
   outerDiv.appendChild(div);
+  //create question input
   var question = document.createElement("INPUT");
-  //asssign input name of the pattern answer(ans type)(question num)
+  //asssign input name of the pattern answer(ans type)(question num) 
   var inputName = "answer"+ this.ansType;
   inputName +=  addInput.questionNum.toString();
+  //assign type to input field
   question.type = this.type;
+  //push name into array
   nameArray.push(inputName);
   question.setAttribute("id",inputName);
   question.setAttribute("name",inputName);
@@ -43,6 +47,7 @@ createQuestion(){
   question.setAttribute("value","Question")
   question.classList.add("form-control");
   question.classList.add("input");
+  //append question input to inner div
   div.appendChild(question);
 
 }
@@ -88,9 +93,11 @@ createTextElements(){
   answer.classList.add("form-control");
   answer.classList.add("input");
   answer.disabled = "true";
+  //append ans field to inner div
   div.appendChild(answer);
 }
 
+ 
 //should the user necessarily answer this question while filling the form
 createRequired(){
   var div = document.createElement("DIV");
@@ -113,11 +120,10 @@ createRequired(){
 
 }
 
-
-addInput.questionNum = 0;
+//add on click
 typeButton.addEventListener("click",function(){
-   addInput.updateQuestionNum();
-    //get value of type of ans chosen
+     addInput.updateQuestionNum();
+  //get value of type of ans chosen
   var radio = document.querySelector('input[name="type"]:checked');
   var inputType = radio.value;
   if(inputType == "text" || inputType == "number"){
@@ -179,17 +185,19 @@ typeButton.addEventListener("click",function(){
   radio.checked = false;
 });
 
-//validation of question fields
+//send on click
 sendForm.addEventListener("click",function(){
   var title = document.querySelector("#title");
   var description = document.querySelector("#description");
-  var error = false;
+  //title validation
   if(title.value == ""){
     alert("enter valid title");
   }
+  //description validation
   if(description.value == ""){
     alert("Enter valid Description");
   }
+  //check if all question fields are filled
   for (var i = 0; i < nameArray.length; i++) {
    var type = nameArray[i];
    var question = document.querySelector('#'+ nameArray[i]);
@@ -240,3 +248,5 @@ function setSettings(){
     }
   }
 }
+
+
