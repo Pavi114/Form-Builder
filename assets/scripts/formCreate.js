@@ -119,7 +119,7 @@ createRequired(){
 }
 
 }
-
+addInput.questionNum = 0;
 //add on click
 typeButton.addEventListener("click",function(){
      addInput.updateQuestionNum();

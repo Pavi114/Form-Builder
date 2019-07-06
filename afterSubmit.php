@@ -19,9 +19,6 @@ if(isset($_SESSION['submitSuccess'])){
 	updateFormTable();
     unset($_SESSION['submitSuccess']);
 }
-else {
-	die("Something went wrong...");
-}
 ?>
 
 <!DOCTYPE html>

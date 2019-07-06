@@ -4,9 +4,10 @@ include("classes/input.php");
 include("classes/buildform.php");
 session_start();
 if(isset($_GET['id'])){
+	$_SESSION['current_form'] = $_GET['id'];
 //get form details from id in url	
 	$stmt = $con->prepare("SELECT submissions_per_user,form_validity,date_created,status FROM form_list WHERE id = ?");
-	$stmt->bind_param('i',$_GET['id']);
+	$stmt->bind_param('i',$_SESSION['current_form']);
 	$stmt->execute();
 	$row = $stmt->get_result();
 	$getMaxCount = $row->fetch_assoc();
@@ -17,8 +18,7 @@ if(isset($_GET['id'])){
 	}
 	else {
 		$timeNow = time();
-		echo strtotime($getMaxCount['date_created']);
-		if($getMaxCount['form_validity'] != 0 && ($timeNow > strtotime($getMaxCount['date_created']) + strtotime(' +'.$getMaxCount['form_validity']." day"))){
+		if($getMaxCount['form_validity'] != 0 && ($timeNow - (strtotime('+'.$getMaxCount['form_validity']." day", strtotime($getMaxCount['date_created'])))) > 0){
        //if time over then close form
 			$stmt = $con->prepare("UPDATE form_list SET status='0' WHERE id=?");
 			$stmt->bind_param('i',$_GET['id']);
@@ -32,8 +32,8 @@ if(isset($_GET['id'])){
 //check if user logged in
 if(isset($_SESSION['userLoggedIn'])){
 
-	$stmt = $con->prepare("SELECT count(*) as count FROM answers WHERE form_id = ? GROUP BY question_id,username LIMIT 1");
-	$stmt->bind_param('i',$_GET['id']);
+	$stmt = $con->prepare("SELECT count(*) as count FROM answers WHERE form_id = ? GROUP BY question_id,username HAVING username = ? LIMIT 1");
+	$stmt->bind_param('is',$_GET['id'],$_SESSION['userLoggedIn']);
 	$stmt->execute();
 	$getCount = $stmt->get_result();
 	$row = $getCount->fetch_assoc();

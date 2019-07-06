@@ -4,7 +4,7 @@ if(isset($_POST['sendForm']) && $_SESSION['formInsert']){
 	$stmt = $currentUser->getCon()->prepare("SELECT * FROM form_list ORDER BY id DESC LIMIT 1");
 	$stmt->execute();
 	$getId = $stmt->get_result();
-	print_r($_POST);
+	// print_r($_POST);
 	//if form exists and only one of this type present
 	if(mysqli_num_rows($getId) == 1){
 		$row = $getId->fetch_assoc();

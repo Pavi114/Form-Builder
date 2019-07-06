@@ -17,6 +17,7 @@
   		$this->validateLastName($ln);
   		$this->validateUsername($un);
   		$this->validatePassword($pass,$pass2);
+      $this->validateEmail($email);
   		if(empty($this->error)){
   			return $this->insertDetails($fn,$ln,$un,$pass,$email);	
   		}
@@ -33,9 +34,7 @@
       $stmt->bind_param('ssss',$name,$un,$encrypt,$email);
       $stmt->execute();
       $stmt->close();
-  		$query = "INSERT INTO user (name,username,password,email) VALUES ('$name','$un','$encrypt','$email')";
-  	    $result = mysqli_query($this->con,$query);
-  	    return $result;
+  	    return true;
   	}
     
     //validate first name
@@ -76,6 +75,12 @@
   			array_push($this->error,Constants::$passwordsDoNotMatch);
   		}
   	}
+
+    public function validateEmail($email){
+      if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+        array_push($this->error, Constants::$invalidEmail);
+      }
+    }
 
   	public function displayError($error){
   		if(!in_array($error,$this->error)){

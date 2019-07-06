@@ -10,17 +10,19 @@ include("generateURL.php");
 <!DOCTYPE html>
 <html>
 <head>
-	<title>I Have No Idea</title>
+	<title>Create Form</title>
   <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
   <link rel="stylesheet" type="text/css" href="assets/stylesheets/formCreate.css">
+
+  <meta property="og:url"           content= "<?php if(isset($url)){ echo $url;} ?>" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="Fill Form" />
+  <meta property="og:description"   content="I invite you to fill my form"  />
   
 </head>
 <body>
-
-
-  <?php include("facebookShare.php"); ?>
 
   <!-- navbar -->
   <nav class="navbar navbar-expand-md navbar-light" id="navBar">
@@ -80,7 +82,6 @@ include("generateURL.php");
           <h2 class="text-center">CREATE CUSTOM FORMS</h2>
           <hr>
         </header>
-        <div><p>Please Click on Settings for more options</p></div>
         <div id="others" class="row">  
         </div>
       </div>  
@@ -100,16 +101,22 @@ include("generateURL.php");
 </div>
 </div>
 
-<!-- display url -->
+<!-- display url and add fb share -->
 <?php
 if(isset($url)){
- echo '<div class="container"><div class="row url rounded justify-content-center">URL:-<a href='.$url.'>'.$url.'</a></div></div>';
+ echo '<div class="container"><div class="row url rounded justify-content-center">URL:-<a href='.$url.'>'.$url.'</a></div>
+       <div class="fb-share-button" 
+         data-href="'.$url.'"
+         data-layout="button_count">
+       </div>
+       <div>
+       <a class="twitter-share-button"
+           href="https://twitter.com/intent/tweet"
+           data-url="'.$url.'">
+            Tweet</a></div></div>';
 }
 ?>
-  <div class="fb-share-button" 
-    data-href="<?php if(isset($url)){echo $url;} ?>"; 
-    data-layout="button_count">
-  </div>
+
 
 <!-- modal -->
 <div class="modal fade" id="modal" data-backdrop="true" data-keyboard="false">
@@ -139,12 +146,19 @@ if(isset($url)){
 </div>
 </div>
 
-
-
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- twitter share -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script type="text/javascript" src="assets/scripts/formCreate.js"></script>
+
+<!-- //for facebook share -->
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 </body>
 </html>
