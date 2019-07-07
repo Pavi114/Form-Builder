@@ -237,7 +237,7 @@ public function validate(){
     if(isset($_POST[$name])){
       $answer = strip_tags($_POST[$name]);
       $validate = $value->validateAnswer($answer);
-      if(!is_string($validate)){
+      if($validate == 1){
         $value->setAnswer($_POST[$name]);
       }
       else {
@@ -247,7 +247,7 @@ public function validate(){
     else if(isset($_FILES[$name])){
       $file = $_FILES[$name];
       $validate = $value->validateFile($file);
-      if(!is_string($validate)){
+      if($validate == 1){
         $value->moveFile($file);
       }
       else {

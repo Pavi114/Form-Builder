@@ -31,7 +31,6 @@ if(isset($_POST['sendForm']) && $_SESSION['formInsert']){
                   //get options and insert into options table
 					if($ansType == "mcq" || $ansType == "dropdown"){
 						$options = getoptions($checkedName,$ansType);
-						print_r($options);
 						$stmt = $currentUser->getCon()->prepare("SELECT id from form_questions ORDER BY id DESC LIMIT 1");
 							$stmt->execute();
 							$row = $stmt->get_result();
@@ -43,7 +42,6 @@ if(isset($_POST['sendForm']) && $_SESSION['formInsert']){
 							$stmt->execute();
 							$stmt->close();
 						}
-						echo $value;
 					}
 				}
 				else{
@@ -64,7 +62,7 @@ if(isset($_POST['sendForm']) && $_SESSION['formInsert']){
 function getoptions($name,$ansType){
 	$questionNum = substr($name,0,-1) ? substr($name,0,-1) : $name;
 	$options = array();
-	echo $questionNum;
+	// echo $questionNum;
 	foreach ($_POST as $key => $value) {
 		if(strpos($key, "answer".$ansType.$questionNum) === 0 && $key != "answer".$ansType.$questionNum){
 		   array_push($options, $value);

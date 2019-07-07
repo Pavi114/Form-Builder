@@ -39,10 +39,10 @@ class Input {
 
   public function validateAnswer($answer){
     if($this->answerType == "text"){
-     $ans = str_replace(array(' ', "'", '-'), '', $answer);
+     $ans = str_replace(array(' ', "'", '-','!','@','#','$','%','^','&','*','(',')',':',';','?','/','<','>',',','.','-','_','+','='), '', $answer);
      if($this->required == "false"){
-      if(!ctype_alnum($ans) && $ans != ""){
-        return "Enter Text";
+      if(!ctype_alnum($ans) && !is_null($ans)){
+        return "hiiEnter Text";
       }
     }
     else{
@@ -53,7 +53,7 @@ class Input {
   }
   else if($this->answerType == "number"){
     if($this->required == "false"){
-      if(ctype_alpha($answer) && $ans != ""){
+      if(ctype_alpha($answer) && !is_null($ans)){
         return "Enter numeric values";
       }
     }
@@ -68,7 +68,7 @@ class Input {
        return "Please Choose an option";
     }
   }
-  return true;
+  return 1;
 }
 
 //validating file

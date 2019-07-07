@@ -123,6 +123,7 @@ addInput.questionNum = 0;
 //add on click
 typeButton.addEventListener("click",function(){
      addInput.updateQuestionNum();
+     hideAddButton();
   //get value of type of ans chosen
   var radio = document.querySelector('input[name="type"]:checked');
   var inputType = radio.value;
@@ -146,13 +147,13 @@ typeButton.addEventListener("click",function(){
     addRadio.type = "button";
     addRadio.value = "Add";
     addRadio.classList.add("rounded");
-    addRadio.setAttribute("id","addRadio");
+    addRadio.setAttribute("id","addRadio"+ addInput.questionNum);
     addRadio.onclick = function(){
-      if(addInput.optionNum < 5){
+      if(addInput.optionNum < 9){
         add.createRadio();
       }
       else {
-        alert("can't add more than 5 options");
+        alert("can't add more than 9 options");
       }
     }
     outerDiv.appendChild(addRadio);
@@ -208,7 +209,16 @@ sendForm.addEventListener("click",function(){
 
 })
 
-//ajax call for setting max submissions and validity of form
+function hideAddButton(){
+ for (var i = 1; i < addInput.questionNum; i++) {
+   var add = document.getElementById("addRadio"+ i);
+   if(add){
+    add.style.display = 'none';
+   }
+  }
+}
+
+  //ajax call for setting max submissions and validity of form
 otherOptions.addEventListener("click",function(){
   var submission = document.querySelector("#submissionCount").value;
   var time = document.querySelector("#timedForm").value;

@@ -104,16 +104,16 @@ include("generateURL.php");
 <!-- display url and add fb share -->
 <?php
 if(isset($url)){
- echo '<div class="container"><div class="row url rounded justify-content-center">URL:-<a href='.$url.'>'.$url.'</a></div>
-       <div class="fb-share-button" 
+ echo '<div class="container"><div class="row url rounded justify-content-center">URL:-<a href='.$url.'>'.$url.'</a>
+       <div class="fb-share-button ml-2" 
          data-href="'.$url.'"
          data-layout="button_count">
        </div>
        <div>
-       <a class="twitter-share-button"
+       <a class="twitter-share-button m-1"
            href="https://twitter.com/intent/tweet"
            data-url="'.$url.'">
-            Tweet</a></div></div>';
+            Tweet</a></div></div></div>';
 }
 ?>
 

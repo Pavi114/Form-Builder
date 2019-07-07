@@ -38,6 +38,12 @@ if(isset($_SESSION['userLoggedIn'])){
 	$getCount = $stmt->get_result();
 	$row = $getCount->fetch_assoc();
 	$currentCount = $row['count'];
+
+	$stmt = $con->prepare("SELECT submissions_per_user,form_validity,date_created,status FROM form_list WHERE id = ?");
+	$stmt->bind_param('i',$_SESSION['current_form']);
+	$stmt->execute();
+	$row = $stmt->get_result();
+	$getMaxCount = $row->fetch_assoc();
 	$maxCount = $getMaxCount['submissions_per_user'];
     
     //check if user has exceeded max submissions or not
@@ -74,6 +80,7 @@ else {
 <html>
 <head>
 	<title><?php if(isset($_SESSION['userLoggedIn'])){echo $buildForm->getTitle(); }?> -Forms</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 	<link rel="stylesheet" type="text/css" href="assets/stylesheets/fillform.css">

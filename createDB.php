@@ -82,4 +82,13 @@ if(!$create){
 	echo mysqli_error($con);
 }
 
+//notifications
+$query = "CREATE TABLE IF NOT EXISTS notifications(
+id INT AUTO_INCREMENT PRIMARY KEy,
+username VARCHAR(60) NOT NULL,
+message text NOT NULL
+)";
+
+$create = mysqli_query($con,$query);
+
 ?>

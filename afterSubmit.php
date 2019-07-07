@@ -14,9 +14,30 @@ function updateFormTable(){
   $stmt->close(); 
 }
 
+function setNotif(){
+  $con = mysqli_connect('localhost','root','idc1234','delta');
+  //fetching details about the creator of form
+  $stmt = $con->prepare("SELECT * FROM form_list WHERE id=?");
+  $stmt->bind_param('i',$_SESSION['current_form']);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  //creator
+  $creator = $row['username'];
+  //current user
+  $formFillUser = $_SESSION['userLoggedIn'];
+  $message = $formFillUser.' filled your '.$row['form_title'].' form.';
+  //insert msg into db
+  $stmt = $con->prepare("INSERT INTO notifications(username,message) VALUES(?, ?)");
+  $stmt->bind_param('ss',$creator,$message);
+  $stmt->execute();
+  $stmt->close();
+}
+
 //after inserting answers
 if(isset($_SESSION['submitSuccess'])){
 	updateFormTable();
+	setNotif();
     unset($_SESSION['submitSuccess']);
 }
 ?>

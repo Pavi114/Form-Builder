@@ -81,6 +81,7 @@ function displayQuestion($string){
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 <link rel="stylesheet" type="text/css" href="assets/stylesheets/response.css">
+
 </head>
 <body>
 	<!--  navbar -->
@@ -105,10 +106,11 @@ function displayQuestion($string){
 					echo getTitle($id,$conn);
 				} ?>	
 			    </h2>
-			<hr>
-		</div>
-	</div>
-	<ol class="list rounded p-lg-4 p-sm-1">
+			    <hr>
+
+		   </div>
+	   </div>
+	   <ol class="list rounded p-lg-4 p-sm-1">
 		
 		<?php
 		if(isset($_POST['response'])){
@@ -125,14 +127,16 @@ function displayQuestion($string){
 				$question = $row['question'];
 
 				echo displayQuestion($question);
+                $question_id = $row['id'];
 
-				$question_id = $row['id'];
                     //get answers from db
 				$stmt = $currentUser->getCon()->prepare("SELECT * FROM answers WHERE question_id = ?");
 				$stmt->bind_param('i',$question_id);
 				$stmt->execute();
 
 				$link = $stmt->get_result();
+
+				$stmt->close();
 				if($row['answer_type'] == "number" || $row['answer_type'] == "text" || $row['answer_type'] == "mcq" || $row['answer_type'] == "dropdown"){
 					$output = displayAnswers($link);
 				}
@@ -147,6 +151,5 @@ function displayQuestion($string){
 
 	</ol>
 </div>
-
 </body>
 </html>
