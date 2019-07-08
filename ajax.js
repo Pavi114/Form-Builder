@@ -1,8 +1,10 @@
 var username = document.querySelector("#username");
 var value = username.value;
 var userAvail = document.querySelector("#userAvail");
+var hidden = document.querySelector(".hidden");
 var httpRequest,response;
 username.addEventListener("input",function(){
+    userAvail.classList.remove("hidden");
     httpRequest = new XMLHttpRequest();
   if(!httpRequest){
   	alert("cannot create a http request");

@@ -27,9 +27,10 @@ function setNotif(){
   //current user
   $formFillUser = $_SESSION['userLoggedIn'];
   $message = $formFillUser.' filled your '.$row['form_title'].' form.';
+  $date = date('Y-m-d H:i:s');
   //insert msg into db
-  $stmt = $con->prepare("INSERT INTO notifications(username,message) VALUES(?, ?)");
-  $stmt->bind_param('ss',$creator,$message);
+  $stmt = $con->prepare("INSERT INTO notifications(username,message,date_filled) VALUES(?, ?, ?)");
+  $stmt->bind_param('sss',$creator,$message,$date);
   $stmt->execute();
   $stmt->close();
 }

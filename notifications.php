@@ -11,14 +11,42 @@ if(isset($_POST['users'])){
 	$result = $stmt->get_result();
 	if(mysqli_num_rows($result) != 0){
 		while ($row = $result->fetch_assoc()) {
-			$output .= '<a class="dropdown-item bg-danger">'.$row['message'].'</a>';
+			$time = time();
+			$diff = $time - strtotime($row['date_filled']);
+			$suf = '';
+			if(7*24*60*60 < $diff){
+				$suf = 'w';
+				$diff = (int)($diff/(7*24*60*60));
+			}
+			else
+				if(24*60*60 < $diff) {
+					$suf = 'd';
+					$diff = (int)($diff/(24*60*60));
+				}
+				else 
+					if(60*60 < $diff){
+						$suf = 'h';
+						$diff = (int)($diff/(60*60));
+					}
+					else if(60 < $diff){
+						$suf = 'm';
+						$diff = (int)($diff/60);
+					}
+					else {
+						$suf = 's';
+						$diff = (int)$diff;	
+					}
+
+				
+				$output .= '<div class="dropdown-item">'.$row['message'].'<div style="margin:0;padding:0;text-align:right;font-size:0.7vw;">'.$diff.'<small>'.$suf.'</small></div></div>';
+
 		}
 	}
-	else {
+		else {
 		//no notifs
-		$output .= '<a class="dropdown-item bg-danger">No new notifications</a>';
-	}
+			$output .= '<a class="dropdown-item bg-danger">No new notifications</a>';
+		}
 
-	echo $output;
-}
-?>
+		echo $output;
+	}
+	?>

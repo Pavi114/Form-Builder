@@ -58,7 +58,7 @@ createRadio(){
   div.classList.add("row");
   div.classList.add("m-2");
   var input = document.createElement("INPUT");
-   input.type = "radio";  
+  input.type = "radio";  
   input.disabled = "true";
   div.appendChild(input);
   var option = document.createElement("INPUT");
@@ -87,17 +87,17 @@ createTextElements(){
   div.classList.add("input-group");
   outerDiv.appendChild(div);
    //create ans field
-  var answer = document.createElement("INPUT");
-  answer.type = this.ansType;
-  answer.setAttribute("placeholder","Answer");
-  answer.classList.add("form-control");
-  answer.classList.add("input");
-  answer.disabled = "true";
+   var answer = document.createElement("INPUT");
+   answer.type = this.ansType;
+   answer.setAttribute("placeholder","Answer");
+   answer.classList.add("form-control");
+   answer.classList.add("input");
+   answer.disabled = "true";
   //append ans field to inner div
   div.appendChild(answer);
 }
 
- 
+
 //should the user necessarily answer this question while filling the form
 createRequired(){
   var div = document.createElement("DIV");
@@ -119,11 +119,14 @@ createRequired(){
 }
 
 }
+
+
 addInput.questionNum = 0;
 //add on click
+var radio = document.querySelector('input[name="type"]');
 typeButton.addEventListener("click",function(){
-     addInput.updateQuestionNum();
-     hideAddButton();
+ addInput.updateQuestionNum();
+ hideAddButton();
   //get value of type of ans chosen
   var radio = document.querySelector('input[name="type"]:checked');
   var inputType = radio.value;
@@ -214,49 +217,49 @@ function hideAddButton(){
    var add = document.getElementById("addRadio"+ i);
    if(add){
     add.style.display = 'none';
-   }
   }
+}
 }
 
   //ajax call for setting max submissions and validity of form
-otherOptions.addEventListener("click",function(){
-  var submission = document.querySelector("#submissionCount").value;
-  var time = document.querySelector("#timedForm").value;
-  if(submission != "" && submission <= 0){
-    alert("Enter integers greater than 0");
-    return false;
-  }
-  if(time != "" && time <= 0){
-    alert("Enter positive integral time");
-    return false;
-  }
-  httpRequest = new XMLHttpRequest();
-  if(!httpRequest){
-    alert("cannot create request");
-    return false;
-  }
-  httpRequest.onreadystatechange = setSettings;
-  httpRequest.open('POST','otherOptions.php');
-  httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-  httpRequest.send('submissionCount=' + submission + '&time=' + time);
+  otherOptions.addEventListener("click",function(){
+    var submission = document.querySelector("#submissionCount").value;
+    var time = document.querySelector("#timedForm").value;
+    if(submission != "" && submission <= 0){
+      alert("Enter integers greater than 0");
+      return false;
+    }
+    if(time != "" && time <= 0){
+      alert("Enter positive integral time");
+      return false;
+    }
+    httpRequest = new XMLHttpRequest();
+    if(!httpRequest){
+      alert("cannot create request");
+      return false;
+    }
+    httpRequest.onreadystatechange = setSettings;
+    httpRequest.open('POST','otherOptions.php');
+    httpRequest.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+    httpRequest.send('submissionCount=' + submission + '&time=' + time);
 
-})
+  })
 
-function setSettings(){
-  if(httpRequest.readyState == XMLHttpRequest.DONE){
-    if(httpRequest.status == 200){
-      var row = document.querySelector("#others");
-      response = JSON.parse(httpRequest.responseText);
-      document.querySelector(".modal-body").innerHTML += "Successfully Updated";
-      if(response.subCount > 0){
-        others.innerHTML += '<div class="col-sm-6"><span>Submissions Per User: '+ response.subCount + '</span></div>'; 
+  function setSettings(){
+    if(httpRequest.readyState == XMLHttpRequest.DONE){
+      if(httpRequest.status == 200){
+        var row = document.querySelector("#others");
+        response = JSON.parse(httpRequest.responseText);
+        document.querySelector(".modal-body").innerHTML += "Successfully Updated";
+        if(response.subCount > 0){
+          others.innerHTML += '<div class="col-sm-6"><span>Submissions Per User: '+ response.subCount + '</span></div>'; 
+        }
+        if(response.timeCount > 0){
+          others.innerHTML += '<div class="col-sm-6" style="text-align:right"><span>Validity: ' + response.timeCount + '</span></div>';
+        }
+
       }
-      if(response.timeCount > 0){
-        others.innerHTML += '<div class="col-sm-6" style="text-align:right"><span>Validity: ' + response.timeCount + '</span></div>';
-      }
-
     }
   }
-}
 
 

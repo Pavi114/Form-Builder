@@ -86,7 +86,8 @@ if(!$create){
 $query = "CREATE TABLE IF NOT EXISTS notifications(
 id INT AUTO_INCREMENT PRIMARY KEy,
 username VARCHAR(60) NOT NULL,
-message text NOT NULL
+message text NOT NULL,
+date_filled VARCHAR(20) NOT NULL
 )";
 
 $create = mysqli_query($con,$query);

@@ -34,31 +34,30 @@ class Input {
    }
    public function setAnswer($answer){
     $this->answer = $answer;
-    echo $this->answer;
   }
 
   public function validateAnswer($answer){
     if($this->answerType == "text"){
      $ans = str_replace(array(' ', "'", '-','!','@','#','$','%','^','&','*','(',')',':',';','?','/','<','>',',','.','-','_','+','='), '', $answer);
      if($this->required == "false"){
-      if(!ctype_alnum($ans) && !is_null($ans)){
-        return "hiiEnter Text";
+      if(!ctype_alnum($ans) && !empty($ans)){
+        return "Enter Text";
       }
     }
     else{
-      if(!ctype_alpha($ans) || is_null($answer)){
+      if(!ctype_alpha($ans) || is_null($answer) || empty($ans)){
         return "Enter text";
       }
     }
   }
   else if($this->answerType == "number"){
     if($this->required == "false"){
-      if(ctype_alpha($answer) && !is_null($ans)){
+      if(ctype_alpha($answer) && !empty($ans)){
         return "Enter numeric values";
       }
     }
     else{
-      if(!is_numeric($answer) || is_null($answer)){
+      if(!is_numeric($answer) || is_null($answer) || empty($ans)){
         return "Enter numeric values";
       }
     }

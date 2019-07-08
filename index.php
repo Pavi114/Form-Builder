@@ -21,8 +21,8 @@ while($row = $result->fetch_assoc()){
 //display form created by user 
   function display($row){
     $url = str_replace("fillform.php", "response.php", $row['url']);
-    return '<tr><td>'.$row['form_title'].'<br><small>'.$url.'</small></td><td>'.$row['total_submissions'].'</td><td><form action='.$url.' method="POST">
-    <button class="btn" name="response">RESPONSES</button>
+    return '<tr><td>'.$row['form_title'].'<br><small><a href="'.$row['url'].'">View form</a></small></td><td style="font-size: 1.5vw;">'.$row['total_submissions'].'</td><td><form action='.$url.' method="POST">
+    <button name="response" class="btn">VIEW</button>
     </form></td></tr>';
   }
   ?>
@@ -70,7 +70,7 @@ while($row = $result->fetch_assoc()){
 </nav>
 
 <div class="container mt-lg-4 mx-md-auto m-sm-0">
-  <div class="table rounded">
+  <div class="rounded">
     <h2 class="text-center">Your Forms</h2>
     <hr>
     <!---display open and trending forms----->
