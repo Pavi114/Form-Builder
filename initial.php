@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 
 // Create database
 
-$sql = "CREATE DATABASE delta";
+$sql = "CREATE DATABASE " . $database;
 $connect = $conn->query($sql);
 
 
